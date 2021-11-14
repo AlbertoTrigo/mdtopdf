@@ -37,7 +37,7 @@ ntharg() {
 
 input=`ntharg $# "$@"`
 
-if [ "$input" != "*.md" ] && [ -f "$input" ]
+if [ "$input" != *.md ] && [ -f "$input" ]
 then
   Help 
   exit 1
