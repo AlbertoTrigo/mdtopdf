@@ -1,0 +1,78 @@
+#!/bin/sh
+
+Convert() {
+    pandoc "$input" \
+    -V linkcolor:blue \
+    -V geometry:a4paper \
+    -V geometry:margin=2cm \
+    -V papersize:a4 \
+    -V documentclass:article \
+    -V fontsize="$fontsize" \
+    -V mainfont="$mainfont" \
+    -V monofont="$monofont" \
+    --pdf-engine=xelatex \
+    -o "$output"
+  }
+
+Help()
+{
+   # Display Help
+   echo "Script to transform markdown files into pdf using Pandoc."
+   echo
+   echo "Syntax: mdtopdf [OPTION] FILE"
+   echo "options:"
+   echo "     -h     Print this Help."
+   echo "     -o     Output file name."
+   echo "     -f     Font family."
+   echo "     -s     Font size."
+   echo "     -m     Monospaced font family."
+   echo "     -r     Execute recursively in a directory"
+   echo
+}
+
+ntharg() {
+    shift $1
+    printf '%s\n' "$1"
+}
+
+input=`ntharg $# "$@"`
+
+if [ "$input" != "*.md" ] && [ -f "$input" ]
+then
+  Help 
+  exit 1
+fi
+
+output="$(echo "$input" | sed "s/md/pdf/g")" # Change input.md to input.pdf
+
+
+
+while getopts ":f:o:s:m:r:h" option; do
+  case $option in
+    h) # display Help
+         Help
+         exit;;
+    s) # enter font
+        fontsize=$OPTARG;;
+    f) # enter font
+        mainfont=$OPTARG;;
+    m) # enter font
+        monofont=$OPTARG;;
+    o) # output name
+        output=$OPTARG;;
+    r) # execute recursively through directory
+        directory=$input
+
+        for input in $directory/*.md
+        do
+          output="$(echo "$input" | sed "s/md/pdf/g")" # Change input.md to input.pdf
+          Convert
+        done
+        exit;;
+    *)  # display error
+        Help
+        exit;;
+ esac
+done
+
+Convert
