@@ -37,15 +37,16 @@ ntharg() {
 
 input=`ntharg $# "$@"`
 
-if [ "$input" != *.md ] && [ -f "$input" ]
+if [ "${input##*.}" != "md" ] # Check file extension
 then
-  Help 
-  exit 1
+  if [ -f "$input" ]
+  then
+    Help 
+    exit 1
+  fi
 fi
 
 output="$(echo "$input" | sed "s/md/pdf/g")" # Change input.md to input.pdf
-
-
 
 while getopts ":f:o:s:m:r:h" option; do
   case $option in
