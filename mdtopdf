@@ -42,7 +42,7 @@ ValidateInput() {
 fontsize=12pt
 mainfont="Times New Roman"
 monofont="Courier New"
-papersize=a4
+papersize=a4paper
 
 # Parse options
 while getopts ":f:o:s:m:p:r:h" option; do
