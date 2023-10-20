@@ -2,7 +2,7 @@
 
 ## Description
 
-This shell script uses Pandoc to convert Markdown files to PDF. You can specify options such as output file name, font family, font size, and even execute the conversion recursively in a directory.
+An enhanced shell script that leverages Pandoc and XeLaTeX to convert Markdown files into PDFs. The script comes with a variety of customizable options such as font size, font family, output file name, and paper size. It even supports batch conversion within a directory.
 
 ## Prerequisites
 
@@ -30,25 +30,26 @@ This shell script uses Pandoc to convert Markdown files to PDF. You can specify 
 
 ### Options
 
-- `-h`: Display help information
-- `-o`: Specify the output file name
-- `-f`: Specify the font family
-- `-s`: Specify the font size
-- `-m`: Specify the monospaced font family
-- `-r`: Execute recursively in a directory
+- `-h`: Display help information.
+- `-o`: Specify the output file name.
+- `-f`: Specify the font family.
+- `-s`: Specify the font size.
+- `-m`: Specify the monospaced font family.
+- `-p`: Specify the paper size (default: a4).
+- `-r`: Execute recursively in a directory.
 
 ### Examples
 
-Convert single file with default settings:
+Convert a single file with default settings:
 
 ```bash
 ./mdtopdf.sh example.md
 ```
 
-Convert single file with custom font:
+Convert a single file with a custom font and paper size:
 
 ```bash
-./mdtopdf.sh -f 'Times New Roman' example.md
+./mdtopdf.sh -f 'Times New Roman' -p 'letter' example.md
 ```
 
 Convert all `.md` files in a directory:
@@ -59,21 +60,18 @@ Convert all `.md` files in a directory:
 
 ## Functions Explained
 
-1. `Convert()`: This function performs the main conversion using Pandoc and takes in various variables for customization like fonts, paper size, etc.
-
+1. `Convert()`: Handles the main conversion via Pandoc, and accepts various customization options.
 2. `Help()`: Displays the help menu.
-
-3. `ntharg()`: Gets the nth argument from the shell input.
+3. `ValidateInput()`: Validates that the input file exists and has the correct extension.
 
 ## Limitations
 
-- Ensure the file extension is `.md`
-- The script assumes Pandoc and XeLaTeX are installed.
+- Make sure the file extension is `.md`.
+- Ensure Pandoc and XeLaTeX are installed on your system.
 
 ## Contributing
 
 Feel free to fork the project and submit a pull request with your changes!
 
 ## License
-
 MIT License
