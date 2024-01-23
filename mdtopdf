@@ -1,5 +1,19 @@
 #!/bin/sh
 
+# Function to display help menu
+Help() {
+    echo "Script to transform markdown files into pdf using Pandoc."
+    echo "Syntax: mdtopdf [OPTION]... FILE"
+    echo "Options:"
+    echo "     -h     Display this Help."
+    echo "     -o     Output file name."
+    echo "     -f     Font family."
+    echo "     -s     Font size."
+    echo "     -m     Monospaced font family."
+    echo "     -p     Paper size (default: a4)."
+    echo "     -r     Execute recursively in a directory."
+}
+
 # Function to perform the main conversion using Pandoc
 Convert() {
     pandoc "$input" \
@@ -15,24 +29,10 @@ Convert() {
     -o "$output"
 }
 
-# Function to display help menu
-Help()
-{
-    echo "Script to transform markdown files into pdf using Pandoc."
-    echo "Syntax: mdtopdf [OPTION]... FILE"
-    echo "Options:"
-    echo "     -h     Display this Help."
-    echo "     -o     Output file name."
-    echo "     -f     Font family."
-    echo "     -s     Font size."
-    echo "     -m     Monospaced font family."
-    echo "     -p     Paper size (default: a4)."
-    echo "     -r     Execute recursively in a directory."
-}
-
 # Function to validate file extension and existence
 ValidateInput() {
     if [ "${input##*.}" != "md" ] || [ ! -f "$input" ]; then
+        echo "Error: Input file must be a Markdown file (.md) and must exist."
         Help
         exit 1
     fi
@@ -47,21 +47,29 @@ papersize=a4paper
 # Parse options
 while getopts ":f:o:s:m:p:r:h" option; do
     case $option in
-        h) Help; exit;;
-        s) fontsize=$OPTARG;;
-        f) mainfont=$OPTARG;;
-        m) monofont=$OPTARG;;
-        o) output=$OPTARG;;
-        p) papersize=$OPTARG;;
+        h) Help; exit ;;
+        s) fontsize=$OPTARG ;;
+        f) mainfont=$OPTARG ;;
+        m) monofont=$OPTARG ;;
+        o) output=$OPTARG ;;
+        p) papersize=$OPTARG ;;
         r) directory=$OPTARG
-           for input in $directory/*.md; do
+           for input in "$directory"/*.md; do
                output="${input%.md}.pdf"
                Convert
            done
-           exit;;
-        *) Help; exit;;
+           exit ;;
+        *) echo "Invalid option: -$OPTARG" >&2
+           Help; exit 1 ;;
     esac
 done
+
+# Ensure an input file is provided
+if [ -z "$1" ]; then
+    echo "Error: No input file provided."
+    Help
+    exit 1
+fi
 
 # Get the input file from the last argument
 input="${!OPTIND}"
@@ -74,4 +82,3 @@ ValidateInput
 
 # Perform the conversion
 Convert
-
