@@ -1,77 +1,61 @@
+
 # Markdown to PDF Converter Script
 
-## Description
+## Introduction
+This script is designed to convert Markdown files to PDFs using Pandoc. It's suitable for users who need to quickly transform their Markdown documents into a professionally formatted PDF file.
 
-An enhanced shell script that leverages Pandoc and XeLaTeX to convert Markdown files into PDFs. The script comes with a variety of customizable options such as font size, font family, output file name, and paper size. It even supports batch conversion within a directory.
+## Installation
+Ensure that Pandoc and LaTeX are installed on your system. If not, you can install them using your package manager. For example, on Ubuntu:
 
-## Prerequisites
+```bash
+sudo apt-get install pandoc texlive
+```
 
-- Pandoc
-- XeLaTeX
+Clone the script from the GitHub repository:
 
-## Table of Contents
+```bash
+git clone [URL to GitHub repository]
+```
 
-1. [Usage](#usage)
-    - [Basic Usage](#basic-usage)
-    - [Options](#options)
-    - [Examples](#examples)
-2. [Functions Explained](#functions-explained)
-3. [Limitations](#limitations)
-4. [Contributing](#contributing)
-5. [License](#license)
+Make the script executable:
+
+```bash
+chmod +x mdtopdf.sh
+```
 
 ## Usage
-
-### Basic Usage
+To use the script, navigate to the directory containing the script and run it with the following syntax:
 
 ```bash
-./mdtopdf.sh <input_file.md>
+./mdtopdf.sh [OPTIONS]... FILE
 ```
+
+Where `FILE` is the path to the Markdown file you want to convert.
 
 ### Options
-
-- `-h`: Display help information.
-- `-o`: Specify the output file name.
-- `-f`: Specify the font family.
-- `-s`: Specify the font size.
-- `-m`: Specify the monospaced font family.
-- `-p`: Specify the paper size (default: a4).
-- `-r`: Execute recursively in a directory.
+- `-h`: Display the help menu.
+- `-o`: Specify the output file name for the PDF.
+- `-f`: Set the font family for the PDF.
+- `-s`: Set the font size for the PDF.
+- `-m`: Set the monospaced font family for the PDF.
+- `-p`: Set the paper size for the PDF (default is A4).
+- `-r`: Execute the script recursively in a directory.
 
 ### Examples
-
-Convert a single file with default settings:
-
-```bash
-./mdtopdf.sh example.md
-```
-
-Convert a single file with a custom font and paper size:
+Convert a single file:
 
 ```bash
-./mdtopdf.sh -f 'Times New Roman' -p 'letter' example.md
+./mdtopdf.sh -o output.pdf -f "Arial" -s 12pt -m "Courier New" -p a4paper input.md
 ```
 
-Convert all `.md` files in a directory:
+Convert all Markdown files in a directory:
 
 ```bash
-./mdtopdf.sh -r ./markdown_files/
+./mdtopdf.sh -r /path/to/directory
 ```
 
-## Functions Explained
-
-1. `Convert()`: Handles the main conversion via Pandoc, and accepts various customization options.
-2. `Help()`: Displays the help menu.
-3. `ValidateInput()`: Validates that the input file exists and has the correct extension.
-
-## Limitations
-
-- Make sure the file extension is `.md`.
-- Ensure Pandoc and XeLaTeX are installed on your system.
-
-## Contributing
-
-Feel free to fork the project and submit a pull request with your changes!
+## Contributions
+Contributions are welcome. Please fork the repository and submit a pull request with your improvements.
 
 ## License
-MIT License
+This script is distributed under the [MIT License](LICENSE). See the `LICENSE` file in the repository for more details.
